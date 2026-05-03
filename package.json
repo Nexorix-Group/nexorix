@@ -1,0 +1,64 @@
+{
+  "name": "nexorix",
+  "version": "1.0.0",
+  "description": "Modern CLI for backend generation, standardization and analysis with professional architecture.",
+  "type": "module",
+  "bin": {
+    "nexorix": "./cli/index.js"
+  },
+  "main": "./cli/index.js",
+  "exports": {
+    ".": "./cli/index.js"
+  },
+  "scripts": {
+    "start": "node cli/index.js",
+    "prepublishOnly": "node cli/index.js version"
+  },
+  "files": [
+    "cli/",
+    "commands/",
+    "generators/",
+    "plugins/",
+    "analyzer/",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^9.2.15"
+  },
+  "keywords": [
+    "cli",
+    "backend",
+    "generator",
+    "scaffold",
+    "nodejs",
+    "architecture",
+    "api",
+    "rest",
+    "microservice",
+    "saas",
+    "boilerplate",
+    "code-generator",
+    "module-generator",
+    "analyzer"
+  ],
+  "author": {
+    "name": "Nexorix Group",
+    "url": "https://github.com/Nexorix-Group"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nexorix-Group/nexorix.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nexorix-Group/nexorix/issues"
+  },
+  "homepage": "https://github.com/Nexorix-Group/nexorix#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

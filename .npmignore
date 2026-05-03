@@ -1,0 +1,30 @@
+# Development
+.env
+.env.*
+*.log
+
+# Tests
+test/
+tests/
+*.test.js
+*.spec.js
+coverage/
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+TODO.md
+CHANGELOG.md
