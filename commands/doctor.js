@@ -10,7 +10,6 @@ export async function doctorCommand() {
 
   const checks = [];
 
-  // Check Node.js
   try {
     const nodeVersion = execSync('node --version', { encoding: 'utf-8' }).trim();
     const major = parseInt(nodeVersion.replace('v', '').split('.')[0]);
@@ -23,7 +22,6 @@ export async function doctorCommand() {
     checks.push({ ok: false, label: 'Node.js', note: 'Not found' });
   }
 
-  // Check npm
   try {
     const npmVersion = execSync('npm --version', { encoding: 'utf-8' }).trim();
     checks.push({ ok: true, label: `npm v${npmVersion}`, note: 'Available' });
@@ -31,7 +29,6 @@ export async function doctorCommand() {
     checks.push({ ok: false, label: 'npm', note: 'Not found' });
   }
 
-  // Check project structure
   const cwd = process.cwd();
   const hasSrc = await fs.pathExists(path.join(cwd, 'src'));
   const hasPackage = await fs.pathExists(path.join(cwd, 'package.json'));
@@ -55,7 +52,6 @@ export async function doctorCommand() {
     note: hasMain ? 'Found' : 'Not found',
   });
 
-  // Check dependencies if package.json exists
   if (hasPackage) {
     const nodeModulesExists = await fs.pathExists(path.join(cwd, 'node_modules'));
     checks.push({
@@ -65,7 +61,6 @@ export async function doctorCommand() {
     });
   }
 
-  // Print results
   for (const check of checks) {
     const icon = check.ok ? chalk.green('  ✔') : chalk.red('  ✖');
     const label = check.ok ? chalk.white(check.label) : chalk.red(check.label);

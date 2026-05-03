@@ -11,7 +11,6 @@ const __dirname = dirname(__filename);
 
 const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
 
-// Import commands
 import { initCommand } from '../commands/init.js';
 import { generateCommand } from '../commands/generate.js';
 import { addCommand } from '../commands/add.js';
@@ -21,7 +20,6 @@ import { runCommand } from '../commands/run.js';
 
 const program = new Command();
 
-// Banner
 function showBanner() {
   console.log('');
   console.log(chalk.cyan.bold('  ███╗   ██╗███████╗██╗  ██╗ ██████╗ ██████╗ ██╗██╗  ██╗'));
@@ -53,6 +51,7 @@ program
   .option('--sqlite', 'Use SQLite database')
   .option('--auth', 'Include authentication plugin')
   .option('--cache', 'Include cache plugin')
+  .option('--typescript', 'Use TypeScript')
   .option('--preset <type>', 'Use a preset (api, saas, micro)')
   .option('--yes', 'Skip prompts and use defaults')
   .option('--smart', 'Auto-select best configuration')
@@ -142,6 +141,7 @@ program
       ['  --sqlite',         'Use SQLite database'],
       ['  --auth',           'Include authentication'],
       ['  --cache',          'Include cache layer'],
+      ['  --typescript',     'Use TypeScript'],
       ['  --preset <type>',  'Preset: api | saas | micro'],
       ['  --yes',            'Skip prompts'],
       ['  --smart',          'Auto-configure project'],
@@ -186,7 +186,6 @@ program
 
 program.parse(process.argv);
 
-// Show help if no args
 if (process.argv.length < 3) {
   showBanner();
   program.help();

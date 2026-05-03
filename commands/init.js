@@ -14,6 +14,7 @@ const PRESETS = {
     auth: false,
     cache: false,
     type: 'api',
+    typescript: false,
     smart: false,
   },
   saas: {
@@ -21,6 +22,7 @@ const PRESETS = {
     auth: true,
     cache: true,
     type: 'api',
+    typescript: false,
     smart: false,
   },
   micro: {
@@ -28,6 +30,7 @@ const PRESETS = {
     auth: false,
     cache: false,
     type: 'microservice',
+    typescript: false,
     smart: false,
   },
 };
@@ -39,7 +42,6 @@ export async function initCommand(name, options) {
 
   let config = {};
 
-  // Smart mode
   if (options.smart) {
     console.log(chalk.yellow('  🧠 Smart mode activated — auto-selecting best configuration...\n'));
     config = {
@@ -48,6 +50,7 @@ export async function initCommand(name, options) {
       auth: true,
       cache: true,
       type: 'api',
+      typescript: false,
       optimizations: true,
     };
     printConfig(config);
@@ -55,7 +58,6 @@ export async function initCommand(name, options) {
     return;
   }
 
-  // Preset mode
   if (options.preset) {
     const preset = PRESETS[options.preset];
     if (!preset) {
@@ -73,7 +75,6 @@ export async function initCommand(name, options) {
     return;
   }
 
-  // Flag mode (--yes skips prompts)
   if (options.yes) {
     config = {
       name: name || 'my-backend',
@@ -81,6 +82,7 @@ export async function initCommand(name, options) {
       auth: !!options.auth,
       cache: !!options.cache,
       type: 'api',
+      typescript: !!options.typescript,
       optimizations: true,
     };
     printConfig(config);
@@ -88,7 +90,6 @@ export async function initCommand(name, options) {
     return;
   }
 
-  // Interactive mode
   const answers = await inquirer.prompt([
     {
       type: 'input',
@@ -96,6 +97,16 @@ export async function initCommand(name, options) {
       message: chalk.white('  Project name:'),
       default: name || 'my-backend',
       validate: (v) => v.trim().length > 0 || 'Name cannot be empty',
+    },
+    {
+      type: 'list',
+      name: 'language',
+      message: chalk.white('  Language:'),
+      choices: [
+        { name: 'JavaScript (ESM)', value: 'js' },
+        { name: 'TypeScript', value: 'ts' },
+      ],
+      default: options.typescript ? 'ts' : 'js',
     },
     {
       type: 'list',
@@ -138,7 +149,10 @@ export async function initCommand(name, options) {
     },
   ]);
 
-  config = answers;
+  config = {
+    ...answers,
+    typescript: answers.language === 'ts',
+  };
   console.log('');
   await createProject(config);
 }
@@ -146,6 +160,7 @@ export async function initCommand(name, options) {
 function printConfig(config) {
   console.log(chalk.gray('  Configuration:'));
   console.log(chalk.gray(`    Name:          ${chalk.white(config.name)}`));
+  console.log(chalk.gray(`    Language:      ${chalk.white(config.typescript ? 'TypeScript' : 'JavaScript')}`));
   console.log(chalk.gray(`    Database:      ${chalk.white(config.database)}`));
   console.log(chalk.gray(`    Auth:          ${chalk.white(config.auth ? 'Yes' : 'No')}`));
   console.log(chalk.gray(`    Cache:         ${chalk.white(config.cache ? 'Yes' : 'No')}`));

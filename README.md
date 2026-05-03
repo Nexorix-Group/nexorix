@@ -59,6 +59,7 @@ nexorix init my-api --mysql --auth    # With flags
 nexorix init --preset saas            # Preset mode
 nexorix init --smart                  # Auto-configure
 nexorix init my-api --yes             # Skip all prompts
+nexorix init my-api --typescript      # TypeScript project
 ```
 
 ### Flags
@@ -69,6 +70,7 @@ nexorix init my-api --yes             # Skip all prompts
 | `--sqlite` | Use SQLite database |
 | `--auth` | Include JWT authentication |
 | `--cache` | Include in-memory cache layer |
+| `--typescript` | Use TypeScript |
 | `--preset <type>` | Preset: `api`, `saas`, `micro` |
 | `--yes` | Skip prompts, use defaults |
 | `--smart` | Auto-select best configuration |
@@ -233,6 +235,9 @@ logger.error('DB failed', { err: error.message });
 ```bash
 # Create a full SaaS backend
 nexorix init my-saas --preset saas
+
+# Create a TypeScript API
+nexorix init my-api --typescript --mysql --auth
 
 # Create a microservice
 nexorix init payment-service --preset micro

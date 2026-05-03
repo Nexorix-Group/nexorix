@@ -25,7 +25,6 @@ export async function generateModule(name) {
 
   const pascal = toPascalCase(name);
 
-  // Controller
   const controller = `import { sendJson } from '../../app/server.js';
 import { ${pascal}Service } from './${name}.service.js';
 

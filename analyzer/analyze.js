@@ -35,27 +35,23 @@ export async function analyzeProject(cwd, pro = false) {
 
     const relativePath = path.relative(cwd, file);
 
-    // Detect console.log usage
     const consoleMatches = lines.filter((l) => /console\.log\s*\(/.test(l));
     if (consoleMatches.length > 0) {
       consoleLogs += consoleMatches.length;
     }
 
-    // Detect large files
     if (lines.length > MAX_LINES) {
       largeFiles++;
       issues.push(`Arquivo grande (${lines.length} linhas): ${relativePath}`);
       score -= 5;
     }
 
-    // Detect controllers with too much logic (>80 lines)
     if (file.includes('controller') && lines.length > 80) {
       heavyControllers++;
       issues.push(`Controller muito grande (${lines.length} linhas): ${relativePath}`);
       score -= 8;
     }
 
-    // Detect controllers without corresponding service
     if (file.includes('controller')) {
       const serviceFile = file.replace('controller', 'service');
       if (!(await fs.pathExists(serviceFile))) {
@@ -66,13 +62,11 @@ export async function analyzeProject(cwd, pro = false) {
     }
   }
 
-  // Penalize console.log usage
   if (consoleLogs > 0) {
     issues.push(`uso de console.log (${consoleLogs} ocorrências)`);
     score -= Math.min(consoleLogs * 2, 15);
   }
 
-  // Check for missing structure
   const hasModules = await fs.pathExists(path.join(srcPath, 'modules'));
   const hasConfig = await fs.pathExists(path.join(srcPath, 'config'));
   const hasCore = await fs.pathExists(path.join(srcPath, 'core'));
@@ -90,7 +84,6 @@ export async function analyzeProject(cwd, pro = false) {
     score -= 5;
   }
 
-  // Suggestions
   if (consoleLogs > 0) {
     suggestions.push('usar logger estruturado (nexorix add logger)');
   }
@@ -107,7 +100,6 @@ export async function analyzeProject(cwd, pro = false) {
     suggestions.push('criar estrutura core/ com middleware e utils');
   }
 
-  // Clamp score
   score = Math.max(0, Math.min(100, score));
 
   if (pro) {

@@ -8,7 +8,6 @@ export async function analyzeCommand(options) {
 
   const result = await analyzeProject(process.cwd(), options.pro);
 
-  // Score color
   let scoreColor = chalk.green;
   if (result.score < 60) scoreColor = chalk.red;
   else if (result.score < 80) scoreColor = chalk.yellow;

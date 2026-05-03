@@ -20,7 +20,6 @@ export async function runCommand() {
     process.exit(1);
   }
 
-  // Check for start script in package.json
   let useScript = false;
   if (await fs.pathExists(packageFile)) {
     const pkg = await fs.readJson(packageFile);
