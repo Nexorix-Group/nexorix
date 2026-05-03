@@ -52,7 +52,8 @@ program
   .option('--auth', 'Include authentication plugin')
   .option('--cache', 'Include cache plugin')
   .option('--typescript', 'Use TypeScript')
-  .option('--preset <type>', 'Use a preset (api, saas, micro)')
+  .option('--docker', 'Generate Docker files')
+  .option('--preset <type>', 'Use a preset (api, saas, micro, docker)')
   .option('--yes', 'Skip prompts and use defaults')
   .option('--smart', 'Auto-select best configuration')
   .action(async (name, options) => {
@@ -142,7 +143,8 @@ program
       ['  --auth',           'Include authentication'],
       ['  --cache',          'Include cache layer'],
       ['  --typescript',     'Use TypeScript'],
-      ['  --preset <type>',  'Preset: api | saas | micro'],
+      ['  --docker',         'Generate Docker files'],
+      ['  --preset <type>',  'Preset: api | saas | micro | docker'],
       ['  --yes',            'Skip prompts'],
       ['  --smart',          'Auto-configure project'],
     ];
@@ -173,7 +175,9 @@ program
       'nexorix init',
       'nexorix init api --mysql --auth --yes',
       'nexorix init --preset saas',
+      'nexorix init --preset docker',
       'nexorix init --smart',
+      'nexorix init my-api --docker --mysql --yes',
       'nexorix generate module product',
       'nexorix add auth',
       'nexorix analyze --pro',

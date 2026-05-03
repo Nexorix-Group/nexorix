@@ -15,6 +15,7 @@ const PRESETS = {
     cache: false,
     type: 'api',
     typescript: false,
+    docker: false,
     smart: false,
   },
   saas: {
@@ -23,6 +24,7 @@ const PRESETS = {
     cache: true,
     type: 'api',
     typescript: false,
+    docker: false,
     smart: false,
   },
   micro: {
@@ -31,6 +33,16 @@ const PRESETS = {
     cache: false,
     type: 'microservice',
     typescript: false,
+    docker: false,
+    smart: false,
+  },
+  docker: {
+    database: 'mysql',
+    auth: true,
+    cache: true,
+    type: 'api',
+    typescript: false,
+    docker: true,
     smart: false,
   },
 };
@@ -51,6 +63,7 @@ export async function initCommand(name, options) {
       cache: true,
       type: 'api',
       typescript: false,
+      docker: false,
       optimizations: true,
     };
     printConfig(config);
@@ -61,7 +74,7 @@ export async function initCommand(name, options) {
   if (options.preset) {
     const preset = PRESETS[options.preset];
     if (!preset) {
-      console.log(chalk.red(`  ✖ Unknown preset: "${options.preset}". Use: api, saas, micro`));
+      console.log(chalk.red(`  ✖ Unknown preset: "${options.preset}". Use: api, saas, micro, docker`));
       process.exit(1);
     }
     config = {
@@ -83,6 +96,7 @@ export async function initCommand(name, options) {
       cache: !!options.cache,
       type: 'api',
       typescript: !!options.typescript,
+      docker: !!options.docker,
       optimizations: true,
     };
     printConfig(config);
@@ -147,6 +161,12 @@ export async function initCommand(name, options) {
       message: chalk.white('  Enable automatic optimizations?'),
       default: true,
     },
+    {
+      type: 'confirm',
+      name: 'docker',
+      message: chalk.white('  Generate Docker files?'),
+      default: !!options.docker,
+    },
   ]);
 
   config = {
@@ -165,5 +185,6 @@ function printConfig(config) {
   console.log(chalk.gray(`    Auth:          ${chalk.white(config.auth ? 'Yes' : 'No')}`));
   console.log(chalk.gray(`    Cache:         ${chalk.white(config.cache ? 'Yes' : 'No')}`));
   console.log(chalk.gray(`    Type:          ${chalk.white(config.type || 'api')}`));
+  console.log(chalk.gray(`    Docker:        ${chalk.white(config.docker ? 'Yes' : 'No')}`));
   console.log('');
 }

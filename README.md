@@ -71,7 +71,8 @@ nexorix init my-api --typescript      # TypeScript project
 | `--auth` | Include JWT authentication |
 | `--cache` | Include in-memory cache layer |
 | `--typescript` | Use TypeScript |
-| `--preset <type>` | Preset: `api`, `saas`, `micro` |
+| `--docker` | Generate Dockerfile + docker-compose.yml |
+| `--preset <type>` | Preset: `api`, `saas`, `micro`, `docker` |
 | `--yes` | Skip prompts, use defaults |
 | `--smart` | Auto-select best configuration |
 
@@ -82,6 +83,7 @@ nexorix init my-api --typescript      # TypeScript project
 | `api` | Clean REST API structure |
 | `saas` | Auth + MySQL + Cache, scalable base |
 | `micro` | Lightweight and modular |
+| `docker` | Auth + MySQL + Cache + Dockerfile + docker-compose.yml |
 
 ---
 
@@ -235,6 +237,12 @@ logger.error('DB failed', { err: error.message });
 ```bash
 # Create a full SaaS backend
 nexorix init my-saas --preset saas
+
+# Create a Docker-ready backend
+nexorix init my-api --preset docker
+
+# Create a TypeScript API with Docker
+nexorix init my-api --typescript --docker --mysql --yes
 
 # Create a TypeScript API
 nexorix init my-api --typescript --mysql --auth
